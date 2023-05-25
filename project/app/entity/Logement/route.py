@@ -27,11 +27,13 @@ def create():
     compteurs = {}
     pieces = {}
     rubriques ={}
+    
     data_ = request.json
+    
     type_logement = getDataByID(db_type_log,data_['type_log'])
     i = 0
     for val_ in type_logement['cles'].values():
-        clefs["cles_"+str(i)] = getDataByID(db_cles,val_)
+        clefs["cles_"+str(i)] = getDataByID(db_cles, val_)
     type_logement['cles'] = clefs
     
     i = 0
@@ -50,6 +52,7 @@ def create():
         for val1_ in valeur['rubriq'].values():
             rubriques["rubriq"+str(k)] = getDataByID(db_rubriq,val1_)
             k+=1
+        
         valeur['rubriq'] = rubriques
         i+=1
     type_logement['piece'] = pieces
@@ -86,7 +89,7 @@ def read_all():
     todo = db_logement.stream()
     final_ = []
     temp = {}
-    for tod in todo:
+    for tod in todo:        
         temp = tod.to_dict()
         temp['_id'] = tod.id
         final_.append(temp)

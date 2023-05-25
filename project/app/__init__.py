@@ -14,7 +14,7 @@ from flask_cors import CORS
 
 
 
-cred = credentials.Certificate('C:/Logement_app/project/app/key.json')
+cred = credentials.Certificate('C:/new services/EDL_PLANING/LOGEMENT/Logement/project/app/dblogement.json')
 default_app = initialize_app(cred)
 db = firestore.client()
 bcrypt = Bcrypt()
@@ -42,9 +42,10 @@ def create_app(config_class=Config):
     from app.entity.Voie.route import voie
     from app.entity.User.route import user
     from app.entity.Logement.route import logement
+    from app.entity.Type_logement.route import type_log
     
     
-    
+    app.register_blueprint(type_log)
     app.register_blueprint(client)
     app.register_blueprint(piece)
     app.register_blueprint(rubriq)
