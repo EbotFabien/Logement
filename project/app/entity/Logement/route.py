@@ -12,6 +12,7 @@ db_user= db.collection('user')
 db_voie= db.collection('voie')
 db_logement= db.collection('logement')
 db_type_log= db.collection('type_log')
+db_edl = db.collection('edl')
 
 
 
@@ -135,3 +136,30 @@ def delete(ide):
     else:
         db_logement.document(todo_id).delete()
         return jsonify({"success": True}), 200
+    
+@cross_origin(origin=["http://127.0.0.1","http://195.15.228.250","*"],headers=['Content- Type','Authorization'])
+@logement.route('/edl_logement/<string:ide>', methods=['GET'])#hide data
+def edl_logement(ide):
+    data_ = request.json
+    todo = db_logement.document(ide)
+    
+
+    final_={}
+    if todo is None:
+        return jsonify({"Fail": "donnee n'existe pas"}), 400
+    else:
+        final_= todo.get().to_dict()  
+    final_["_id"] = ide
+    
+    edl = getDataByID(db_edl,data_['edl'])
+    
+    query_ref =db_edl.where(u'edl.id', u'==', True)
+    
+    
+
+    i = 0
+    for val_ in edl['logement'].values():
+            edl = getDataByID(db_edl,data_['edl'])
+           
+    
+    return jsonify(final_), 200
