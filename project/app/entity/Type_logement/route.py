@@ -22,14 +22,18 @@ def create():
 @cross_origin(origin=["http://127.0.0.1","http://195.15.228.250","*"],headers=['Content-Type','Authorization'])
 @type_log.route('/type_log/tous', methods=['GET'])
 def read():
-    all_todos = [doc.to_dict() for doc in db_type_log.stream()]
-    return jsonify(all_todos), 200
+    todo =  db_type_log.stream()
+    final_ = []
+    temp = {}
+    for tod in todo:        
+        temp = tod.to_dict()
+        temp['_id'] = tod.id
+        final_.append(temp)
+    return jsonify(final_), 200
 
 @cross_origin(origin=["http://127.0.0.1","http://195.15.228.250","*"],headers=['Content-Type','Authorization'])
-@type_log.route('/type_log/<int:ide>', methods=['GET'])
+@type_log.route('/type_log/<ide>', methods=['GET'])
 def read_ind(ide):
-
-
     todo_id = str(ide)
     
     if todo_id:

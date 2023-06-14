@@ -22,8 +22,15 @@ def create():
 @cross_origin(origin=["http://127.0.0.1","http://195.15.228.250","*"],headers=['Content-Type','Authorization'])
 @cles.route('/cles/tous', methods=['GET'])
 def read():
-    all_todos = [doc.to_dict() for doc in db_cles.stream()]
-    return jsonify(all_todos), 200
+    
+    todo = db_cles.stream()
+    final_ = []
+    temp = {}
+    for tod in todo:        
+        temp = tod.to_dict()
+        temp['_id'] = tod.id
+        final_.append(temp)
+    return jsonify(final_), 200
 
 @cross_origin(origin=["http://127.0.0.1","http://195.15.228.250","*"],headers=['Content-Type','Authorization'])
 @cles.route('/cles/<int:ide>', methods=['GET'])
